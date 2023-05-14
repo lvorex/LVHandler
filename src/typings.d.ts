@@ -1,4 +1,4 @@
-import { ApplicationCommandOption, CommandInteraction, Guild, GuildChannel, Message } from "discord.js"
+import { ApplicationCommandOption, CommandInteraction, Events, Guild, GuildChannel, Message } from "discord.js"
 import { TypeOfCommand } from "./Utils/TypeOfCommand"
 
 export interface LVCommand {
@@ -15,3 +15,6 @@ export interface CommandObjects {
     channel: GuildChannel
 }
 
+export interface LVEvent {
+    type: Events
+}
