@@ -32,6 +32,7 @@ export default class CommandHandler {
 
     private readFolders = async (path: string, folderName: string): Promise<LVFile[]> => {
         const commandFolder = await fs.readdir(p.join(path, folderName), { withFileTypes: true })
+        const commandFolderPath = p.join(path, folderName)
         const foundCommands: LVFile[] = []
         for await (const commandFile of commandFolder) {
             if (
@@ -41,7 +42,7 @@ export default class CommandHandler {
             ) {
                 foundCommands.push({
                     name: commandFile.name,
-                    path: p.join(path, commandFile.name)
+                    path: p.join(commandFolderPath, commandFile.name)
                 })
             }
         }
@@ -85,6 +86,7 @@ export default class CommandHandler {
                 folderFiles.forEach(commandFile => {
                     CommandFiles.push(commandFile)
                 })
+                continue
             } else if (
                 !command.name.endsWith(".ts") &&
                 !command.name.endsWith(".js")
@@ -97,6 +99,10 @@ export default class CommandHandler {
         }
 
         return CommandFiles
+    }
+
+    private isCommandMissing = async () => {
+        // Soon.
     }
 
     public createCommand = async (name: string, description: string | undefined, options: ApplicationCommandOption[] | undefined, type: TypeOfCommand) => {
