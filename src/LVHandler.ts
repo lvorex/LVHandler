@@ -1,5 +1,6 @@
 import { Client } from "discord.js";
 import CommandHandler from "./Handlers/CommandHandler";
+import EventHandler from "./Handlers/EventHandler";
 
 export default class LVHandler {
     private _client: Client
@@ -19,9 +20,12 @@ export default class LVHandler {
 
     private configureSystems = async (options: LVHandlerOptions) => {
         const commandHandler = new CommandHandler(this as LVHandler)
+        const eventHandler = new EventHandler(this as LVHandler)
         await commandHandler.checkCommands()
         await commandHandler.startRegular()
         await commandHandler.startSlash()
+        
+        await eventHandler.startHandler()
 
         console.log(`LVHandler > Bot is running now.`)
     }
