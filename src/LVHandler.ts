@@ -22,6 +22,8 @@ export default class LVHandler {
         await commandHandler.checkCommands()
         await commandHandler.startRegular()
         await commandHandler.startSlash()
+
+        console.log(`LVHandler > Bot is running now.`)
     }
 
     public get client(): Client {

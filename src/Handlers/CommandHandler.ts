@@ -102,7 +102,49 @@ export default class CommandHandler {
     }
 
     private isCommandMissing = async () => {
-        // Soon.
+        const commands = await this.getCommands()
+        const files = await this.getFiles()
+        if (!commands?.cache.size) return false
+
+        let a = 0
+        let i = 0
+        let missing = false
+
+        function loop() {
+            if (!commands) return
+            const existingCommand = commands.cache.at(i)
+            if (!existingCommand) return true
+            const command = files[a]
+            if (!command) {
+                console.log(`LVHandler > Deleting Command "/${existingCommand?.name}".`)
+                commands.delete(existingCommand)
+                i++
+                a = 0
+                loop()
+                return
+            }
+            const commandRequirement = require(command.path)
+            if (
+                commandRequirement.default.type !== "SLASH" &&
+                commandRequirement.default.type !== "BOTH"
+            ) {
+                i++
+                a = 0
+                loop()
+            }
+
+            if (existingCommand?.name === command.name.split(".")[0]) {
+                i++
+                a = 0
+                loop()
+            } else {
+                a++
+                loop()
+            }
+        }
+        loop()
+
+        return true
     }
 
     public createCommand = async (name: string, description: string | undefined, options: ApplicationCommandOption[] | undefined, type: TypeOfCommand) => {
@@ -158,6 +200,7 @@ export default class CommandHandler {
         for await (const command of commandFiles) {
             const commandRequirement = require(command.path)
             await this.createCommand(command.name, commandRequirement.default.description, commandRequirement.default.options, commandRequirement.default.type)
+            await this.isCommandMissing()
         }
     }
 
