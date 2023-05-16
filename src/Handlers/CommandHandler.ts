@@ -208,7 +208,7 @@ export default class CommandHandler {
         this.instance.client.on(Events.MessageCreate, async (message) => {
             if (message.content.startsWith(this.instance.defaultPrefix)) {
                 for await (const command of this.regularCommands) {
-                    if (message.content.startsWith(`!${command}`)) {
+                    if (message.content.startsWith(`!${command.name}`)) {
                         command.execute({ interaction: null, channel: message.channel, guild: message.guild, message: message })
                     }
                 }

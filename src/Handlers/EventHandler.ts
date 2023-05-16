@@ -1,8 +1,7 @@
-import { Events } from "discord.js";
+import { Client, Events } from "discord.js";
 import LVHandler from "../LVHandler";
 import fs from "fs/promises";
 import p from "path";
-import { ClientEvents } from "discord.js";
 
 export default class EventHandler {
     private instance: LVHandler
@@ -27,7 +26,6 @@ export default class EventHandler {
                 }
                 this.events.push({
                     name: folderFile.name,
-                    type: eventVariables.default.type,
                     exec: eventVariables.default.execute
                 })
             }
@@ -57,7 +55,6 @@ export default class EventHandler {
             }
             this.events.push({
                 name: file.name,
-                type: eventVariables.default.type,
                 exec: eventVariables.default.execute
             })
         }
@@ -65,18 +62,16 @@ export default class EventHandler {
         return true
     }
 
-    private startEvent = async (eventType: string, execute: (obj: any) => undefined) => {
-        this.instance.client.on(eventType, async (object: any) => {
-            execute(object)
-        })
+    private startEvent = async (execute: (client: Client) => void) => {
+        execute(this.instance.client)
     }
 
     public startHandler = async () => {
         await this.getEvents()
 
         for await (const event of this.events) {
-            await this.startEvent(event.type, event.exec)
-            console.log(`LVHandler > Event "${event.name}" Ready.`)
+            await this.startEvent(event.exec)
+            console.log(`LVHandler > Event "${event.name.split(".")[0]}" Ready.`)
             continue
         }
     }
@@ -84,6 +79,5 @@ export default class EventHandler {
 
 export interface LVEventFile {
     name: string
-    type: Events
     exec: (obj : any) => undefined
 }
