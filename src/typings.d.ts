@@ -1,11 +1,11 @@
-import { Client, CommandInteraction, Guild, Message, TextBasedChannel } from "discord.js"
+import { ApplicationCommandOption, Client, CommandInteraction, Guild, Message, TextBasedChannel } from "discord.js"
 import { TypeOfCommand } from "./Utils/TypeOfCommand"
 
 export interface LVCommand {
     execute: (options: CommandObjects) => { content?: string, ephemeral?: boolean } | undefined
     description: string
     type: TypeOfCommand
-    options?: ApplicationCommandOption[]
+    options: ApplicationCommandOption[]
 }
 
 export interface CommandObjects {
