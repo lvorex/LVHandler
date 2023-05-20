@@ -5,7 +5,7 @@ export interface LVCommand {
     execute: (options: CommandObjects) => { content?: string, ephemeral?: boolean } | undefined
     description: string
     type: TypeOfCommand
-    options: ApplicationCommandOption[]
+    options?: ApplicationCommandOption[]
 }
 
 export interface CommandObjects {
@@ -13,6 +13,7 @@ export interface CommandObjects {
     guild: Guild | null
     message: Message<boolean> | null
     channel: TextBasedChannel | null
+    client: Client
 }
 
 export interface LVEvent {
