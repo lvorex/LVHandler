@@ -208,8 +208,8 @@ export default class CommandHandler {
         this.instance.client.on(Events.MessageCreate, async (message) => {
             if (message.content.startsWith(this.instance.defaultPrefix)) {
                 for await (const command of this.regularCommands) {
-                    if (message.content.startsWith(`!${command}`)) {
-                        command.execute({ interaction: null, channel: message.channel, guild: message.guild, message: message })
+                    if (message.content.startsWith(`!${command.name}`)) {
+                        command.execute({ interaction: null, channel: message.channel, guild: message.guild, message: message, client: message.client })
                     }
                 }
             }
@@ -221,7 +221,7 @@ export default class CommandHandler {
             if (interaction.isCommand()) {
                 for await(const command of this.slashCommands) {
                     if (interaction.command?.name === command.name) {
-                        command.execute({ interaction: interaction, channel: interaction.channel, guild: interaction.guild, message: null })
+                        command.execute({ interaction: interaction, channel: interaction.channel, guild: interaction.guild, message: null, client: interaction.client })
                     }
                 }
             }
