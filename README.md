@@ -4,6 +4,11 @@ LVHandler automatically integrates the commands in the script folder and the eve
 
 ## Example Usage
 
+**Install NPM Package:**
+```css
+npm install lvhandler
+```
+
 **Setup LVHandler:**
 > _index.ts_
 ```ts
