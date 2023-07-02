@@ -58,10 +58,16 @@ export interface LVHandlerOptions {
     autoDelete?: boolean
 }
 
-export interface CommandObjects {
-    interaction: CommandInteraction | null
+export interface SlashObjects {
+    interaction: CommandInteraction
     guild: Guild | null
-    message: Message<boolean> | null
+    channel: TextBasedChannel | null
+    client: Client
+}
+
+export interface RegularObjects {
+    guild: Guild | null
+    message: Message<boolean>
     channel: TextBasedChannel | null
     client: Client
 }

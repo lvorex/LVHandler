@@ -3,7 +3,7 @@ import LVHandler from "../LVHandler"
 import { ApplicationCommandOption, Client, Events } from "discord.js"
 import { TypeOfCommand } from "../Utils/TypeOfCommand"
 import p from "path"
-import { CommandObjects } from "../typings"
+import { RegularObjects, SlashObjects } from "../typings"
 
 export default class CommandHandler { 
     private instance: LVHandler
@@ -14,11 +14,11 @@ export default class CommandHandler {
 
     private regularCommands: {
         name: string,
-        execute: (options: CommandObjects) => { content?: string, ephemeral?: boolean } | undefined
+        execute: (options: RegularObjects) => { content?: string, ephemeral?: boolean } | undefined
     }[] = []
     private slashCommands: {
         name: string,
-        execute: (options: CommandObjects) => { content?: string, ephemeral?: boolean } | undefined
+        execute: (options: SlashObjects) => { content?: string, ephemeral?: boolean } | undefined
     }[] = []
 
     private getCommands = async () => {
@@ -210,7 +210,7 @@ export default class CommandHandler {
             if (message.content.startsWith(this.instance.defaultPrefix)) {
                 for await (const command of this.regularCommands) {
                     if (message.content.startsWith(`!${command.name}`)) {
-                        command.execute({ interaction: null, channel: message.channel, guild: message.guild, message: message, client: message.client })
+                        command.execute({ channel: message.channel, guild: message.guild, message: message, client: message.client })
                     }
                 }
             }
@@ -222,7 +222,7 @@ export default class CommandHandler {
             if (interaction.isCommand()) {
                 for await(const command of this.slashCommands) {
                     if (interaction.command?.name === command.name) {
-                        command.execute({ interaction: interaction, channel: interaction.channel, guild: interaction.guild, message: null, client: interaction.client })
+                        command.execute({ interaction: interaction, channel: interaction.channel, guild: interaction.guild, client: interaction.client })
                     }
                 }
             }
