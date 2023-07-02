@@ -59,7 +59,7 @@ export interface LVHandlerOptions {
 }
 
 export interface SlashObjects {
-    interaction: CommandInteraction
+    interaction: ChatInputCommandInteraction<CacheType>
     guild: Guild | null
     channel: TextBasedChannel | null
     client: Client
