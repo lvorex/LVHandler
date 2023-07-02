@@ -2,10 +2,15 @@
   "name": "lvhandler",
   "version": "0.8",
   "description": "Command and event handler for Discord Bots.",
-  "main": "src/index.ts",
+  "main": "./src/index.ts",
+  "typings": "./src/typings.d.ts",
   "author": "Lvorex",
   "license": "MIT",
   "dependencies": {
-    "discord.js": "^14.11.0"
+    "discord.js": "^14.11.0",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
   }
 }
