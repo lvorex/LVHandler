@@ -1,6 +1,6 @@
 {
   "name": "lvhandler",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Command and event handler for Discord Bots.",
   "main": "./src/index.ts",
   "typings": "./src/typings.d.ts",
