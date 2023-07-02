@@ -1,7 +1,7 @@
 import fs from "fs/promises"
 import LVHandler from "../LVHandler"
 import { ApplicationCommandOption, Client, Events, InteractionType } from "discord.js"
-import { TypeOfCommand } from "../Utils/TypeOfCommand"
+import { TypeOfCommand } from "../typings"
 import p from "path"
 import { CommandObjects } from "../typings"
 

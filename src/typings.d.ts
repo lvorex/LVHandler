@@ -69,3 +69,9 @@ export interface CommandObjects {
 export interface LVEvent {
     execute: (client: Client) => undefined | Promise<undefined>
 }
+
+export enum TypeOfCommand {
+    SLASH = "SLASH",
+    REGULAR = "REGULAR",
+    BOTH = "BOTH"
+}
