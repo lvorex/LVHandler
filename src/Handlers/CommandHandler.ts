@@ -3,7 +3,7 @@ import LVHandler from "../LVHandler"
 import { ApplicationCommandOption, Client, Events, InteractionType } from "discord.js"
 import { TypeOfCommand } from "../Utils/TypeOfCommand"
 import p from "path"
-import { RegularObjects, SlashObjects } from "../typings"
+import { CommandObjects } from "../typings"
 
 export default class CommandHandler { 
     private instance: LVHandler
@@ -14,11 +14,11 @@ export default class CommandHandler {
 
     private regularCommands: {
         name: string,
-        execute: (options: RegularObjects) => { content?: string, ephemeral?: boolean } | undefined
+        execute: (options: CommandObjects) => { content?: string, ephemeral?: boolean } | undefined
     }[] = []
     private slashCommands: {
         name: string,
-        execute: (options: SlashObjects) => { content?: string, ephemeral?: boolean } | undefined
+        execute: (options: CommandObjects) => { content?: string, ephemeral?: boolean } | undefined
     }[] = []
 
     private getCommands = async () => {
@@ -210,7 +210,7 @@ export default class CommandHandler {
             if (message.content.startsWith(this.instance.defaultPrefix)) {
                 for await (const command of this.regularCommands) {
                     if (message.content.startsWith(`!${command.name}`)) {
-                        command.execute({ channel: message.channel, guild: message.guild, message: message, client: message.client })
+                        command.execute({ interaction: null, channel: message.channel, guild: message.guild, message: message, client: message.client })
                     }
                 }
             }
@@ -221,8 +221,8 @@ export default class CommandHandler {
         this.instance.client.on(Events.InteractionCreate, async (interaction) => {
             if (interaction.isCommand()) {
                 for await(const command of this.slashCommands) {
-                    if (interaction.command?.name === command.name && interaction && interaction.isChatInputCommand() && interaction.type === InteractionType.ApplicationCommand) {
-                        command.execute({ interaction: interaction, channel: interaction.channel, guild: interaction.guild, client: interaction.client })
+                    if (interaction.command?.name === command.name && !interaction.isChatInputCommand() && interaction.type === InteractionType.ApplicationCommand) {
+                        command.execute({ interaction: interaction, channel: interaction.channel, guild: interaction.guild, message: null, client: interaction.client })
                     }
                 }
             }
