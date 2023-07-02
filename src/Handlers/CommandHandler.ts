@@ -1,7 +1,6 @@
 import fs from "fs/promises"
 import LVHandler from "../LVHandler"
 import { ApplicationCommandOption, Client, Events } from "discord.js"
-import { Dirent } from "fs"
 import { TypeOfCommand } from "../Utils/TypeOfCommand"
 import p from "path"
 import { CommandObjects } from "../typings"
@@ -101,7 +100,7 @@ export default class CommandHandler {
         return CommandFiles
     }
 
-    private isCommandMissing = async () => {
+    private isCommandMissing = async (autoDelete: boolean) => {
         const commands = await this.getCommands()
         const files = await this.getFiles()
         if (!commands?.cache.size) return false
@@ -116,8 +115,10 @@ export default class CommandHandler {
             if (!existingCommand) return true
             const command = files[a]
             if (!command) {
-                console.log(`LVHandler > Deleting Command "/${existingCommand?.name}".`)
-                commands.delete(existingCommand)
+                if (autoDelete === true) {
+                    console.log(`LVHandler > Deleting Command "/${existingCommand?.name}".`)
+                    commands.delete(existingCommand)
+                }
                 i++
                 a = 0
                 loop()
@@ -195,12 +196,12 @@ export default class CommandHandler {
         return true
     }
 
-    public checkCommands = async () => {
+    public checkCommands = async (autoDelete: boolean) => {
         const commandFiles = await this.getFiles()
         for await (const command of commandFiles) {
             const commandRequirement = require(command.path)
             await this.createCommand(command.name, commandRequirement.default.description, commandRequirement.default.options, commandRequirement.default.type)
-            await this.isCommandMissing()
+            await this.isCommandMissing(autoDelete)
         }
     }
 
