@@ -7,6 +7,7 @@ export default class LVHandler {
     private _commandDir: string
     private _eventDir: string | undefined = undefined
     private _defaultPrefix: string = "!"
+    private _autoDelete: boolean = false
 
     constructor(options: LVHandlerOptions) {
         this._client = options.client
@@ -15,13 +16,16 @@ export default class LVHandler {
         if (options.defaultPrefix) {
             this._defaultPrefix = options.defaultPrefix
         }
+        if (options.autoDelete) {
+            this._autoDelete = options.autoDelete
+        }
         this.configureSystems(options)
     }
 
     private configureSystems = async (options: LVHandlerOptions) => {
         const commandHandler = new CommandHandler(this as LVHandler)
         const eventHandler = new EventHandler(this as LVHandler)
-        await commandHandler.checkCommands()
+        await commandHandler.checkCommands(this._autoDelete)
         await commandHandler.startRegular()
         await commandHandler.startSlash()
         
@@ -49,4 +53,5 @@ export interface LVHandlerOptions {
     commandDir: string
     defaultPrefix?: string
     eventDir?: string
+    autoDelete?: boolean
 }
