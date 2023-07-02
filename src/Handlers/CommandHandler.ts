@@ -1,6 +1,6 @@
 import fs from "fs/promises"
 import LVHandler from "../LVHandler"
-import { ApplicationCommandOption, Client, Events } from "discord.js"
+import { ApplicationCommandOption, Client, Events, InteractionType } from "discord.js"
 import { TypeOfCommand } from "../Utils/TypeOfCommand"
 import p from "path"
 import { RegularObjects, SlashObjects } from "../typings"
@@ -221,7 +221,7 @@ export default class CommandHandler {
         this.instance.client.on(Events.InteractionCreate, async (interaction) => {
             if (interaction.isCommand()) {
                 for await(const command of this.slashCommands) {
-                    if (interaction.command?.name === command.name) {
+                    if (interaction.command?.name === command.name && interaction && interaction.isChatInputCommand() && interaction.type === InteractionType.ApplicationCommand) {
                         command.execute({ interaction: interaction, channel: interaction.channel, guild: interaction.guild, client: interaction.client })
                     }
                 }
