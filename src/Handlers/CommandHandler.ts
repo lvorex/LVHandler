@@ -221,7 +221,7 @@ export default class CommandHandler {
         this.instance.client.on(Events.InteractionCreate, async (interaction) => {
             if (interaction.isCommand()) {
                 for await(const command of this.slashCommands) {
-                    if (interaction.command?.name === command.name && !interaction.isChatInputCommand() && interaction.type === InteractionType.ApplicationCommand) {
+                    if (interaction.command?.name === command.name) {
                         command.execute({ interaction: interaction, channel: interaction.channel, guild: interaction.guild, message: null, client: interaction.client })
                     }
                 }
