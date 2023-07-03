@@ -2,7 +2,9 @@
 
 # LVHandler
 
-LVHandler automatically integrates the commands in the script folder and the events in the events folder into your bot, making it easy to create commands. Examples are given below.
+LVHandler is a discord command/event handler. It is very easy to use and makes it easy to create commands and events. 
+It also automatically integrates the files in the command/event folder you specify into your bot.
+You can better understand what I have explained with the following examples.
 
 ## Example Usage
 
