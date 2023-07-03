@@ -1,3 +1,5 @@
+<a href='https://github.com/lvorex/LVHandler' target='_blank'>![GitHub Repo](https://img.shields.io/github/stars/lvorex/LVHandler?style=social)</a>
+
 # LVHandler
 
 LVHandler automatically integrates the commands in the script folder and the events in the events folder into your bot, making it easy to create commands. Examples are given below.

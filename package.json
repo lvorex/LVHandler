@@ -1,6 +1,6 @@
 {
   "name": "lvhandler",
-  "version": "1.0.9",
+  "version": "1.1.2",
   "description": "Command and event handler for Discord Bots.",
   "main": "./src/index.ts",
   "typings": "./src/typings.d.ts",
@@ -25,6 +25,10 @@
     "event handler",
     "discord handler"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lvorex/LVHandler.git"
+  },
   "dependencies": {
     "discord.js": "^14.11.0",
     "fs": "^0.0.1-security",
