@@ -8,16 +8,11 @@ You can better understand what I have explained with the following examples.
 
 ## Example Usage
 
-**Install NPM Package:**
-```css
-npm install lvhandler
-```
-
 **Setup LVHandler:**
 > _index.ts_
 ```ts
 import { Client, Events, IntentsBitField } from "discord.js";
-import LVHandler from "lvhandler";
+import LVHandler from "./LVHandler/src/LVHandler";
 import path from "path";
 
 const client = new Client({ intents: [/* Your Intents */] })
@@ -38,8 +33,8 @@ client.login("TOKEN")
 **Command Creation:**
 > _Commands/ping.ts_
 ```ts
-import { LVCommand } from "lvhandler";
-import { TypeOfCommand } from "lvhandler";
+import { LVCommand } from "../LVHandler/src/typings";
+import { TypeOfCommand } from "../LVHandler/src/Utils/TypeOfCommand";
 
 export default {
     description: "Replies With Pong.", // Command Description.
@@ -57,7 +52,7 @@ export default {
 > _Events/replyToHi.ts_
 ```ts
 import { Events } from "discord.js";
-import { LVEvent } from "lvhandler";
+import { LVEvent } from "../LVHandler/src/typings";
 
 export default {
     execute: (client) => {
