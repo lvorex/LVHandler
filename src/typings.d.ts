@@ -1,12 +1,5 @@
 import { ApplicationCommandOption, Client, CommandInteraction, Guild, Message, TextBasedChannel } from "discord.js"
 
-
-export enum TypeOfCommand {
-    SLASH = "SLASH",
-    REGULAR = "REGULAR",
-    BOTH = "BOTH"
-}
-
 export interface LVCommand {
     execute: (options: CommandObjects) => { content?: string, ephemeral?: boolean } | undefined
     description: string
