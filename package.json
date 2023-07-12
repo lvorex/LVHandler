@@ -1,6 +1,6 @@
 {
   "name": "lvhandler",
-  "version": "0.8",
+  "version": "0.9",
   "description": "Command and event handler for Discord Bots.",
   "main": "src/index.ts",
   "author": "Lvorex",
