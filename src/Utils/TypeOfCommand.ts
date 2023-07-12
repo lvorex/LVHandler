@@ -1,5 +1,7 @@
-export enum TypeOfCommand {
+enum TypeOfCommand {
     SLASH = "SLASH",
     REGULAR = "REGULAR",
     BOTH = "BOTH"
 }
+
+export default TypeOfCommand
