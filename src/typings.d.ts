@@ -8,6 +8,12 @@ export interface LVCommand {
     options?: ApplicationCommandOption[]
 }
 
+enum TypeOfCommand {
+    SLASH = "SLASH",
+    REGULAR = "REGULAR",
+    BOTH = "BOTH"
+}
+
 export default class LVHandler {
     private _client: Client
     private _commandDir: string
