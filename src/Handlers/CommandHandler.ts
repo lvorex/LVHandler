@@ -148,13 +148,17 @@ export default class CommandHandler {
         return true
     }
 
-    public createCommand = async (name: string, description: string | undefined, options: ApplicationCommandOption[] | undefined, type: TypeOfCommand) => {
+    public createCommand = async (name: string) => {
         const commandName: string = name.split(".")[0]
+        const requirement = await this.findCommandFile(name)
+        const type = requirement.default.type
+        const description = requirement.default.description
+        const options = requirement.default.options
+
         if (
             type === "REGULAR" ||
             type === "BOTH"
         ) {
-            const requirement = await this.findCommandFile(name)
             if (!requirement.default.execute) {
                 console.log(`LVHandler > Command "${this.instance.defaultPrefix}${commandName}" don't have "execute" variable.`)
                 return
@@ -168,7 +172,6 @@ export default class CommandHandler {
         }
         if (!description) return false
         const commands = await this.getCommands()
-        const requirement = await this.findCommandFile(name)
         if (!requirement.default.execute) {
             console.log(`LVHandler > Command "/${commandName}" don't have "execute" variable.`)
             return
@@ -200,7 +203,7 @@ export default class CommandHandler {
         const commandFiles = await this.getFiles()
         for await (const command of commandFiles) {
             const commandRequirement = require(command.path)
-            await this.createCommand(command.name, commandRequirement.default.description, commandRequirement.default.options, commandRequirement.default.type)
+            await this.createCommand(command.name)
             await this.isCommandMissing(autoDelete)
         }
     }
