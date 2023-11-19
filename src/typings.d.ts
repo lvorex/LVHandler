@@ -1,4 +1,4 @@
-import { ApplicationCommandOption, Client, CommandInteraction, Guild, Message, TextBasedChannel } from "discord.js"
+import { ApplicationCommandOption, ChatInputCommandInteraction, Client, CommandInteraction, Guild, Message, TextBasedChannel } from "discord.js"
 import TypeOfCommand from "./Utils/TypeOfCommand"
 import CommandFunctions from "./Utils/CommandFunctions"
 import EventFunctions from "./Utils/EventFunctions"
