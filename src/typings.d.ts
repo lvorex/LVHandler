@@ -22,6 +22,10 @@ export default class LVHandler {
     private _eventDir: string | undefined = undefined
     private _defaultPrefix: string = "!"
     private _autoDelete: boolean = false
+    public LVHandlerFunctions: {
+        commandFunctions: CommandFunctions,
+        eventFunctions: EventFunctions
+    }
 
     constructor(options: LVHandlerOptions) {
         this._client = options.client
