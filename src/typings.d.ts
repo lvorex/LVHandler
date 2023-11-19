@@ -1,5 +1,7 @@
 import { ApplicationCommandOption, Client, CommandInteraction, Guild, Message, TextBasedChannel } from "discord.js"
 import TypeOfCommand from "./Utils/TypeOfCommand"
+import CommandFunctions from "./Utils/CommandFunctions"
+import EventFunctions from "./Utils/EventFunctions"
 
 export interface LVCommand {
     execute: (options: CommandObjects) => { content?: string, ephemeral?: boolean } | undefined
@@ -65,11 +67,15 @@ export interface LVHandlerOptions {
 }
 
 export interface CommandObjects {
-    interaction: CommandInteraction | null
+    interaction: ChatInputCommandInteraction | null
     guild: Guild | null
     message: Message<boolean> | null
     channel: TextBasedChannel | null
-    client: Client
+    client: Client,
+    lvhandler: {
+        commandFunctions: CommandFunctions,
+        eventFunctions: EventFunctions
+    }
 }
 
 export interface LVEvent {

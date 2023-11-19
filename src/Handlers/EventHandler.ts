@@ -2,6 +2,8 @@ import { Client, Events } from "discord.js";
 import LVHandler from "../LVHandler";
 import fs from "fs/promises";
 import p from "path";
+import CommandFunctions from "../Utils/CommandFunctions";
+import EventFunctions from "../Utils/EventFunctions";
 
 export default class EventHandler {
     private instance: LVHandler
@@ -62,8 +64,8 @@ export default class EventHandler {
         return true
     }
 
-    private startEvent = async (execute: (client: Client) => void) => {
-        execute(this.instance.client)
+    private startEvent = async (execute: (client: Client, lvhandler: { commandFunctions: CommandFunctions, eventFunctions: EventFunctions }) => void) => {
+        execute(this.instance.client, this.instance.LVHandlerFunctions)
     }
 
     public startHandler = async () => {

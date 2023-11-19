@@ -1,7 +1,6 @@
 import fs from "fs/promises"
 import LVHandler from "../LVHandler"
-import { ApplicationCommandOption, Client, Events, InteractionType } from "discord.js"
-import TypeOfCommand from "../Utils/TypeOfCommand"
+import { Events, InteractionType } from "discord.js"
 import p from "path"
 import { CommandObjects } from "../typings"
 
@@ -161,7 +160,7 @@ export default class CommandHandler {
         ) {
             if (!requirement.default.execute) {
                 console.log(`LVHandler > Command "${this.instance.defaultPrefix}${commandName}" don't have "execute" variable.`)
-                return
+                return false
             }
             this.regularCommands.push({
                 name: commandName,
@@ -174,7 +173,7 @@ export default class CommandHandler {
         const commands = await this.getCommands()
         if (!requirement.default.execute) {
             console.log(`LVHandler > Command "/${commandName}" don't have "execute" variable.`)
-            return
+            return false
         }
         this.slashCommands.push({
             name: commandName,
@@ -202,7 +201,6 @@ export default class CommandHandler {
     public checkCommands = async (autoDelete: boolean) => {
         const commandFiles = await this.getFiles()
         for await (const command of commandFiles) {
-            const commandRequirement = require(command.path)
             await this.createCommand(command.name)
             await this.isCommandMissing(autoDelete)
         }
@@ -213,7 +211,7 @@ export default class CommandHandler {
             if (message.content.startsWith(this.instance.defaultPrefix)) {
                 for await (const command of this.regularCommands) {
                     if (message.content.startsWith(`!${command.name}`)) {
-                        command.execute({ interaction: null, channel: message.channel, guild: message.guild, message: message, client: message.client })
+                        command.execute({ interaction: null, channel: message.channel, guild: message.guild, message: message, client: message.client, lvhandler: this.instance.LVHandlerFunctions })
                     }
                 }
             }
@@ -222,10 +220,10 @@ export default class CommandHandler {
 
     public startSlash = async () => {
         this.instance.client.on(Events.InteractionCreate, async (interaction) => {
-            if (interaction.isCommand()) {
+            if (interaction.isCommand() && interaction.isChatInputCommand() && interaction.type === InteractionType.ApplicationCommand) {
                 for await(const command of this.slashCommands) {
                     if (interaction.command?.name === command.name) {
-                        command.execute({ interaction: interaction, channel: interaction.channel, guild: interaction.guild, message: null, client: interaction.client })
+                        command.execute({ interaction: interaction, channel: interaction.channel, guild: interaction.guild, message: null, client: interaction.client, lvhandler: this.instance.LVHandlerFunctions })
                     }
                 }
             }
